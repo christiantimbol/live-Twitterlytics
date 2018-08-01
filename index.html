@@ -37,7 +37,7 @@
 
   <!--Load AJAX API-->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript">// Load the Visualization API and the piechart package.
+  <script type="text/javascript">// Load the Visualization API
   google.load('visualization', "1", {'packages':['corechart']});
   google.load("visualization", "1", {packages:["geochart"]});
 
@@ -47,62 +47,66 @@
   // Callback that creates and populates a data table, instantiates the pie chart, passes in the data and draws it.
   function drawChart() {
 
-    // Create the TopLangs table.
+    // ----------------------------
+    // > Create the topLangs-chart.
+    // ----------------------------
     var data = new google.visualization.DataTable();
 
     data.addColumn('string', 'Languages');
     data.addColumn('number', 'Usage');
     data.addColumn({type: 'number', role: 'tooltip'});
-    data.addRows( {{ language_data | safe }}  );
+    data.addRows(
+      //{{ language_data | safe }}
+      [['English', 913, 913], ['Korean', 42, 42], ['Arabic', 167, 167], ['Portuguese', 200, 200], ['Dutch', 3, 3], ['Spanish', 296, 296], ['Japanese', 166, 166], ['Thai', 22, 22], ['French', 82, 82], ['Polish', 5, 5], ['Catalan', 8, 8], ['Urdu', 4, 4], ['Estonian', 3, 3], ['Turkish', 44, 44], ['Filipino', 7, 7], ['Hindi', 2, 2], ['Italian', 10, 10], ['Norwegian', 1, 1], ['German', 5, 5], ['Russian', 5, 5], ['Bulgarian', 1, 1], ['Persian', 3, 3], ['Romanian', 1, 1], ['Greek', 4, 4], ['Lithuanian', 2, 2], ['Danish', 1, 1], ['Finnish', 1, 1], ['Swedish', 2, 2]]
+      );
 
-    // Set chart options
-    var options = {'title':'Most used languages on Twitter from all tweets',
-                   'width':800,
+    var options = {
                    'height':600,
-                   sliceVisibilityThreshold: .01,
-                   is3D: true};
+                   sliceVisibilityThreshold: .025,
+                   pieSliceText: 'label',
+                   legend: 'none'
+                 };
 
-    // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('topLangs-chart'));
 
     chart.draw(data, options);
 
-
-    // ------------------------------------------------------------------//
-    // ------------------------------------------------------------------//
-
-
+    // ----------------------------
+    // > Create the LoveHate-chart.
+    // ----------------------------
     var data3 = new google.visualization.DataTable();
 
     data3.addColumn('string', 'Words');
     data3.addColumn('number', 'Usage');
     data3.addColumn({type: 'number', role: 'annotation'});
-    data3.addRows( {{ words_data | safe }}  );
+    data3.addRows(
+    //  {{ words_data | safe }}
+      [['love_words', 156, 156], ['swear_words', 98, 98]]
+    );
 
-    // Set chart options
-    var options3 = {'title':'Love Words vs. Hate Words from all tweets',
-                   'width':800,
+    var options3 = {
                    'height':600,
                    sliceVisibilityThreshold: .01,
-                   is3D: true};
+                   is3D: true,
+                    pieSliceText: 'label',
+                   legend: 'none'
+                 };
 
-    // Instantiate and draw our chart, passing in some options.
     var chart3 = new google.visualization.PieChart(document.getElementById('LoveHate-chart'));
 
     chart3.draw(data3, options3);
 
-
-
-    // ------------------------------------------------------------------//
-    // ------------------------------------------------------------------//
+    // ----------------------------
+    // > Create Countries-chart
+    // ----------------------------
 
     var data5 = google.visualization.arrayToDataTable(
-      {{ country_data | safe }}
+      // {{ country_data | safe }}
+      [['Country', 'Popularity'], ['Togo', 1], ['Japan', 2], ['Pakistan', 1], ['Venezuela', 2], ['Austria', 1], ['Costa Rica', 1], ['Colombia', 4], ['Chile', 2], ['United States', 1], ['Georgia', 2], ['Ecuador', 1], ['Greece', 2], ['France', 1], ['Philippines', 1], ['China', 1], ['Cuba', 1], ['Israel', 1], ['Canada', 2], ['Egypt', 1], ['Ireland', 1], ['New Zealand', 1], ['Chad', 1], ['United Kingdom', 1]]
     );
 
     var options5 = {
-
-    colorAxis: {colors: ['teal', 'blue']}
+      colorAxis: {colors: ['teal', 'blue']}
   };
 
 
@@ -110,34 +114,33 @@
 
     chart5.draw(data5, options5);
 
-    // ------------------------------------------------------------------//
-    // ------------------------------------------------------------------//
+    // ----------------------------
+    // > Create topTweetLangs-chart
+    // ----------------------------
 
     var data2 = new google.visualization.DataTable();
 
     data2.addColumn('string', 'Languages');
     data2.addColumn('number', 'Usage');
     data2.addColumn({type: 'number', role: 'annotation'});
-    data2.addRows( {{ top_language_data | safe }}  );
+    data2.addRows(
+      //{{ top_language_data | safe }}
+      [['Japanese', 6, 6], ['English', 70, 70], ['Korean', 3, 3], ['Thai', 1, 1], ['Portuguese', 2, 2], ['Spanish', 1, 1]]
+      );
 
-    // Set chart options
-    var options2 = {'title':'Most used languages on Twitter from Top Tweets',
-                   'width':800,
-                   'height':600,
-                    pieHole: 0.4,
-                    is3D: true};
+    var options2 = {
+      'height':600,
+      pieSliceText: 'label',
+      legend: 'none'
+    };
 
-    // Instantiate and draw our chart, passing in some options.
     var chart2 = new google.visualization.PieChart(document.getElementById('topTweetLangs-chart'));
 
     chart2.draw(data2, options2);
 
-    // ------------------------------------------------------------------//
-    // ------------------------------------------------------------------//
-
 
   }
-  </script>
+</script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -188,7 +191,7 @@
   <section id="home" class="no-padding">
     <div id="hero" style="background-image:url(static/img/twitterlytics-home.jpg);">
       <div class="home-header-container">
-        <h1 style="margin-top: 10px; font-weight: 400; color: #fafafa; letter-spacing: 0.04em; text-shadow: 1px 1px #262626;">Twitterlytics</h1>
+        <h2 style="margin-top: 10px; font-weight: 400; color: #fafafa; letter-spacing: 0.04em; text-shadow: 1px 1px #262626;">Twitterlytics</h2>
         <div class="seperator size-small"><span></span></div>
         <h3>Extracting and analyzing Twitter data</h3>
         <br>
@@ -276,11 +279,103 @@
         <h5 class="subtitle">This section provides a sample of the Top Tweets (retweeted > 10,000 times) that were grabbed.</h5>
       </div>
       <br>
-      <center>
-        {% for tweet in tweets %}
+      <div class="column one-full">
+        <!--{% for tweet in tweets %}
         {{ tweet | safe}}
         {% endfor %}
-      </center>
+        -->
+        <!--
+          <blockquote class="twitter-tweet" data-cards="hidden"><p lang="ja" dir="ltr">【盗撮注意】公衆トイレや試着室に、フック型隠しカメラが設置されていることがあるそう。一見、隠しカメラとは思えないものなので、フックがあれば全体を布か何かでフック全体を覆うようにした方が良いかも。これは是非とも皆に知って欲しい。 <a href="https://t.co/jdL20x1Mhh">pic.twitter.com/jdL20x1Mhh</a></p>&mdash; she (@oshoyu_egg) <a href="https://twitter.com/oshoyu_egg/status/1021792336215326720?ref_src=twsrc%5Etfw">July 24, 2018</a></blockquote>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">Just needs a little help <a href="https://t.co/mydc3vybZM">pic.twitter.com/mydc3vybZM</a></p>&mdash; Nature is Amazing 🌴 (@AMAZlNGNATURE) <a href="https://twitter.com/AMAZlNGNATURE/status/1022312392787513345?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">me opening the same app i just closed <a href="https://t.co/ttFbf1Qb5p">https://t.co/ttFbf1Qb5p</a></p>&mdash; josh (@yunginstitution) <a href="https://twitter.com/yunginstitution/status/1022207060535074817?ref_src=twsrc%5Etfw">July 25, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">&quot;It be ya own niggas&quot;~Papa John <a href="https://t.co/PjxULs0ri4">https://t.co/PjxULs0ri4</a></p>&mdash; Chidden Nuddet (@Sir_Hurizzel) <a href="https://twitter.com/Sir_Hurizzel/status/1022658465850945536?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">How to NOT kill yourself pt 1<br><br>Avoid being around people who make you want to kill yourself</p>&mdash; KANYE WEST (@kanyewest) <a href="https://twitter.com/kanyewest/status/1022952843563556864?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">eclipse <a href="https://twitter.com/hashtag/RM?src=hash&amp;ref_src=twsrc%5Etfw">#RM</a> <a href="https://t.co/uFDjljdxOM">pic.twitter.com/uFDjljdxOM</a></p>&mdash; 방탄소년단 (@BTS_twt) <a href="https://twitter.com/BTS_twt/status/1022919621563711488?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">Direct deposit ? I know <a href="https://t.co/CshhfX0rvI">https://t.co/CshhfX0rvI</a></p>&mdash; D (@yeeerderrick) <a href="https://twitter.com/yeeerderrick/status/1022586865197740033?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">eclipse <a href="https://twitter.com/hashtag/RM?src=hash&amp;ref_src=twsrc%5Etfw">#RM</a> <a href="https://t.co/uFDjljdxOM">pic.twitter.com/uFDjljdxOM</a></p>&mdash; 방탄소년단 (@BTS_twt) <a href="https://twitter.com/BTS_twt/status/1022919621563711488?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="ja" dir="ltr">SABON日本上陸10周年を記念してTwitter限定キャンペーンがスタート。<br>つるんとなめらか肌へと導く「フェイスポリッシャー」を抽選で20名様にプレゼントします。<br><br>▼参加方法<br>①<a href="https://twitter.com/SABON_Japan?ref_src=twsrc%5Etfw">@SABON_Japan</a>をフォロー<br>②この投稿をRT<br><br>特設サイトでもキャンペーン実施中<a href="https://t.co/Yw3VX3wUGz">https://t.co/Yw3VX3wUGz</a><a href="https://twitter.com/hashtag/sabon?src=hash&amp;ref_src=twsrc%5Etfw">#sabon</a> <a href="https://twitter.com/hashtag/%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%83%88?src=hash&amp;ref_src=twsrc%5Etfw">#プレゼント</a> <a href="https://t.co/URbuZGrmxn">pic.twitter.com/URbuZGrmxn</a></p>&mdash; 【公式】SABON(サボン) (@SABON_Japan) <a href="https://twitter.com/SABON_Japan/status/1017743928395624449?ref_src=twsrc%5Etfw">July 13, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">not to be confused with award winning actor Leonardo DaVinci <a href="https://t.co/ODOpurNgj3">https://t.co/ODOpurNgj3</a></p>&mdash; ruckin📱 (@ruckin_) <a href="https://twitter.com/ruckin_/status/1021523556352577538?ref_src=twsrc%5Etfw">July 23, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">but yet it’s hispanic workers who have to fix his piece of shit star when all he does is talk shit about them. LMAO funny how that works out <a href="https://t.co/lEjfv4K4hv">https://t.co/lEjfv4K4hv</a></p>&mdash; 𝘽🧡 (@_bbrirose) <a href="https://twitter.com/_bbrirose/status/1022647224809926656?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br>90+ Grades<br><br>For this SY 2018-2019<br><br>Rt now✨</p>&mdash; JhonAlbertJuario (@Jalbert444) <a href="https://twitter.com/Jalbert444/status/1020668615824044032?ref_src=twsrc%5Etfw">July 21, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="ko" dir="ltr"><a href="https://twitter.com/hashtag/BTS?src=hash&amp;ref_src=twsrc%5Etfw">#BTS</a> <a href="https://twitter.com/hashtag/%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8?src=hash&amp;ref_src=twsrc%5Etfw">#방탄소년단</a> <a href="https://twitter.com/hashtag/VLIVE?src=hash&amp;ref_src=twsrc%5Etfw">#VLIVE</a> channel hit 10 million followers! 천만 구독자 달성 기념 축하 메시지가 네이버 그린팩토리 외벽에 게시되었습니다! V❤️BTS 천만! <a href="https://twitter.com/hashtag/BTS_VLIVE_10million?src=hash&amp;ref_src=twsrc%5Etfw">#BTS_VLIVE_10million</a> <a href="https://t.co/WECPlX58EC">pic.twitter.com/WECPlX58EC</a></p>&mdash; V LIVE (@Vliveofficial) <a href="https://twitter.com/Vliveofficial/status/1022808637960478720?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">How to NOT kill yourself pt 1<br><br>Avoid being around people who make you want to kill yourself</p>&mdash; KANYE WEST (@kanyewest) <a href="https://twitter.com/kanyewest/status/1022952843563556864?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">do coke and pepsi taste the same??????<br><br>rt for no<br>like for yes<br><br>it’s time to finally settle this</p>&mdash; shenk (@taylorshenk) <a href="https://twitter.com/taylorshenk/status/1021064484838952960?ref_src=twsrc%5Etfw">July 22, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">How to NOT kill yourself pt 1<br><br>Avoid being around people who make you want to kill yourself</p>&mdash; KANYE WEST (@kanyewest) <a href="https://twitter.com/kanyewest/status/1022952843563556864?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">Sooo today my 6 year old cousin tried to kill me ...Follow thread to see the rest ..I promise ITS WORTH ALL YOUR TIME . <a href="https://t.co/wNgoRmsoLl">pic.twitter.com/wNgoRmsoLl</a></p>&mdash; cass🦄 (@darealcass_) <a href="https://twitter.com/darealcass_/status/891790065093029889?ref_src=twsrc%5Etfw">July 30, 2017</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">I don’t know how I thought jeans were being made, but this wasn’t it. <a href="https://t.co/IKKBdfCOFe">https://t.co/IKKBdfCOFe</a></p>&mdash; Zoi🤸🏾‍♀️ (@zoisthoughts) <a href="https://twitter.com/zoisthoughts/status/1022521177959555072?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">I don’t know how I thought jeans were being made, but this wasn’t it. <a href="https://t.co/IKKBdfCOFe">https://t.co/IKKBdfCOFe</a></p>&mdash; Zoi🤸🏾‍♀️ (@zoisthoughts) <a href="https://twitter.com/zoisthoughts/status/1022521177959555072?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">*logs into gmail on different device*<br><br>Google 2 seconds later: <a href="https://t.co/RjANdDfNGW">https://t.co/RjANdDfNGW</a></p>&mdash; pull the receipts type beat (@Groovy1u) <a href="https://twitter.com/Groovy1u/status/1022531997548388352?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">&quot;It be ya own niggas&quot;~Papa John <a href="https://t.co/PjxULs0ri4">https://t.co/PjxULs0ri4</a></p>&mdash; Chidden Nuddet (@Sir_Hurizzel) <a href="https://twitter.com/Sir_Hurizzel/status/1022658465850945536?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">eclipse <a href="https://twitter.com/hashtag/RM?src=hash&amp;ref_src=twsrc%5Etfw">#RM</a> <a href="https://t.co/uFDjljdxOM">pic.twitter.com/uFDjljdxOM</a></p>&mdash; 방탄소년단 (@BTS_twt) <a href="https://twitter.com/BTS_twt/status/1022919621563711488?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">No I’m just gay <a href="https://t.co/qoSPo3w0aS">https://t.co/qoSPo3w0aS</a></p>&mdash; Kait (@kaitlinmaarie) <a href="https://twitter.com/kaitlinmaarie/status/1022249480035426304?ref_src=twsrc%5Etfw">July 25, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="ja" dir="ltr">猛暑の影響で救急出動が急増し、通常より救急隊を増やして対応していますが、1日の出動が22件となった隊もあります。<br>そのため出動が連続し消防署に戻れない時は、救急車でコンビニ等に立ち寄り飲料水等を購入する場合があります。<br>その際も、出動態勢は維持していますので、ご理解をお願いします。</p>&mdash; 名古屋市消防局【公式】 (@NagoyaShobo) <a href="https://twitter.com/NagoyaShobo/status/1022414035029880834?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">It all makes sense now. Imagine working from 9-5 and coming back and your kid didn’t take the chicken out the freezer</p>&mdash; AJ Olarinde (@AjOlarinde) <a href="https://twitter.com/AjOlarinde/status/1022238648354451456?ref_src=twsrc%5Etfw">July 25, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">eclipse <a href="https://twitter.com/hashtag/RM?src=hash&amp;ref_src=twsrc%5Etfw">#RM</a> <a href="https://t.co/uFDjljdxOM">pic.twitter.com/uFDjljdxOM</a></p>&mdash; 방탄소년단 (@BTS_twt) <a href="https://twitter.com/BTS_twt/status/1022919621563711488?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">How to NOT kill yourself pt 1<br><br>Avoid being around people who make you want to kill yourself</p>&mdash; KANYE WEST (@kanyewest) <a href="https://twitter.com/kanyewest/status/1022952843563556864?ref_src=twsrc%5Etfw">July 27, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">MY CHILDHOOD HAS BEEN RESTORED 😂 <a href="https://t.co/GjVj3FRRWX">pic.twitter.com/GjVj3FRRWX</a></p>&mdash; dayana • (@DayanaMarshae) <a href="https://twitter.com/DayanaMarshae/status/1022482393075208195?ref_src=twsrc%5Etfw">July 26, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">This man decided to go 70+ in a 40 while drunk and ran into a fucking tree and Killed my 16 year old cousin. Lock him up <a href="https://t.co/x5O1CTxhme">https://t.co/x5O1CTxhme</a></p>&mdash; Jonte’ (@BOO_Dank) <a href="https://twitter.com/BOO_Dank/status/1022258233921167360?ref_src=twsrc%5Etfw">July 25, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        <blockquote class="twitter-tweet" data-cards="hidden"><p lang="en" dir="ltr">do coke and pepsi taste the same??????<br><br>rt for no<br>like for yes<br><br>it’s time to finally settle this</p>&mdash; shenk (@taylorshenk) <a href="https://twitter.com/taylorshenk/status/1021064484838952960?ref_src=twsrc%5Etfw">July 22, 2018</a></blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      -->
+      </div>
     </div>
   </div>
 
@@ -322,7 +417,8 @@
           </a>
         </h5>
       </p>
-      <p><em>Last updated: {{datetime}} PST</em></p>
+      <!--<p><em>Data Last Updated: {{datetime}} PST</em></p>-->
+      <p><em>Data Last Updated: 2018-07-27 22:12:52 PST</em></p>
     </div>
   </footer>
 
@@ -344,8 +440,6 @@
   <script type='text/javascript' src='static/js/script.js'></script>
   <!-- Custom JS for fixed header -->
   <script type='text/javascript' src='static/js/fixed-header.js'></script>
-  <!-- Custom JS for AJAX loading (portfolio projects) -->
-  <script type='text/javascript' src='static/js/AJAX-loader.js'></script>
 
 </body>
 

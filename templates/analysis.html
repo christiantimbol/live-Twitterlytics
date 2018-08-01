@@ -2,7 +2,7 @@
 {% block graphs %}
   <!--Load AJAX API-->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript">// Load the Visualization API and the piechart package.
+  <script type="text/javascript">// Load the Visualization API
   google.load('visualization', "1", {'packages':['corechart']});
   google.load("visualization", "1", {packages:["geochart"]});
 
@@ -20,12 +20,12 @@
     data.addColumn({type: 'number', role: 'tooltip'});
     data.addRows( {{ language_data | safe }}  );
 
-    // Set chart options
-    var options = {'title':'Most used languages on Twitter from all tweets',
-                   'width':800,
+     var options = {
                    'height':600,
-                   sliceVisibilityThreshold: .01,
-                   is3D: true};
+                   sliceVisibilityThreshold: .025,
+                   pieSliceText: 'label',
+                   legend: 'none'
+                 };
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('topLangs-chart'));
@@ -44,12 +44,13 @@
     data3.addColumn({type: 'number', role: 'annotation'});
     data3.addRows( {{ words_data | safe }}  );
 
-    // Set chart options
-    var options3 = {'title':'Love Words vs. Hate Words from all tweets',
-                   'width':800,
+    var options3 = {
                    'height':600,
                    sliceVisibilityThreshold: .01,
-                   is3D: true};
+                   is3D: true,
+                    pieSliceText: 'label',
+                   legend: 'none'
+                 };
 
     // Instantiate and draw our chart, passing in some options.
     var chart3 = new google.visualization.PieChart(document.getElementById('LoveHate-chart'));
@@ -85,12 +86,11 @@
     data2.addColumn({type: 'number', role: 'annotation'});
     data2.addRows( {{ top_language_data | safe }}  );
 
-    // Set chart options
-    var options2 = {'title':'Most used languages on Twitter from Top Tweets',
-                   'width':800,
-                   'height':600,
-                    pieHole: 0.4,
-                    is3D: true};
+    var options2 = {
+      'height':600,
+      pieSliceText: 'label',
+      legend: 'none'
+    };
 
     // Instantiate and draw our chart, passing in some options.
     var chart2 = new google.visualization.PieChart(document.getElementById('topTweetLangs-chart'));
