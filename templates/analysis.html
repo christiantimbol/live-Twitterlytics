@@ -1,0 +1,213 @@
+{% extends "index.html" %}
+{% block graphs %}
+  <!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript">// Load the Visualization API and the piechart package.
+  google.load('visualization', "1", {'packages':['corechart']});
+  google.load("visualization", "1", {packages:["geochart"]});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+
+    // Create the TopLangs table.
+    var data = new google.visualization.DataTable();
+
+    data.addColumn('string', 'Languages');
+    data.addColumn('number', 'Usage');
+    data.addColumn({type: 'number', role: 'tooltip'});
+    data.addRows( {{ language_data | safe }}  );
+
+    // Set chart options
+    var options = {'title':'Most used languages on Twitter from all tweets',
+                   'width':800,
+                   'height':600,
+                   sliceVisibilityThreshold: .01,
+                   is3D: true};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('topLangs-chart'));
+
+    chart.draw(data, options);
+
+
+    // ------------------------------------------------------------------//
+    // ------------------------------------------------------------------//
+
+
+    var data3 = new google.visualization.DataTable();
+
+    data3.addColumn('string', 'Words');
+    data3.addColumn('number', 'Usage');
+    data3.addColumn({type: 'number', role: 'annotation'});
+    data3.addRows( {{ words_data | safe }}  );
+
+    // Set chart options
+    var options3 = {'title':'Love Words vs. Hate Words from all tweets',
+                   'width':800,
+                   'height':600,
+                   sliceVisibilityThreshold: .01,
+                   is3D: true};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart3 = new google.visualization.PieChart(document.getElementById('LoveHate-chart'));
+
+    chart3.draw(data3, options3);
+
+
+
+    // ------------------------------------------------------------------//
+    // ------------------------------------------------------------------//
+
+    var data5 = google.visualization.arrayToDataTable(
+      {{ country_data | safe }}
+    );
+
+    var options5 = {
+
+    colorAxis: {colors: ['teal', 'blue']}
+  };
+
+
+    var chart5 = new google.visualization.GeoChart(document.getElementById('Countries-chart'));
+
+    chart5.draw(data5, options5);
+
+    // ------------------------------------------------------------------//
+    // ------------------------------------------------------------------//
+
+    var data2 = new google.visualization.DataTable();
+
+    data2.addColumn('string', 'Languages');
+    data2.addColumn('number', 'Usage');
+    data2.addColumn({type: 'number', role: 'annotation'});
+    data2.addRows( {{ top_language_data | safe }}  );
+
+    // Set chart options
+    var options2 = {'title':'Most used languages on Twitter from Top Tweets',
+                   'width':800,
+                   'height':600,
+                    pieHole: 0.4,
+                    is3D: true};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart2 = new google.visualization.PieChart(document.getElementById('topTweetLangs-chart'));
+
+    chart2.draw(data2, options2);
+
+    // ------------------------------------------------------------------//
+    // ------------------------------------------------------------------//
+
+
+  }
+</script>
+{% endblock %}
+
+{% block main %}
+
+  <!-- About Section -->
+  <div class="section-inner" id="about">
+    <div class="wrapper">
+      <h3 style="text-align:left">What is Twitterlytics?</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This website utilizes Python and the Tweepy API to grab tweets from the live Twitter stream. The data is then presented using Flask and Google Charts. Various analyses from this tweet data are given below.</h5>
+        <br>
+        <h5 class="subtitle">If you would like more information, please see <a href="https://github.com/christiantimbol/twitterlytics" class="link-contact">my project page on Github</a>.</h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Languages Section -->
+  <div class="section-inner" id="topLangs">
+    <div class="wrapper">
+      <h3 style="text-align:left">Top Languages</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This section categorizes the tweets grabbed by language, so we may see the breakdown of languages used in tweets, thus determining the "top languages" in terms of tweet quantity.</h5>
+        <br>
+        <h5 class="subtitle">Hover over the different sections of the chart to see the specific amount of tweets that comprise that language.</h5>
+      </div>
+      <br>
+      <center><div id="topLangs-chart"></div></center>
+    </div>
+  </div>
+
+  <!-- Love vs Hate Section -->
+  <div class="section-inner" id="LoveHate">
+    <div class="wrapper">
+      <h3 style="text-align:left">Love Tweets vs. Hate Tweets</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This section categorizes tweets as "Love" or "Hate" depending on the words used in the tweets grabbed. </h5>
+        <br>
+        <h5 class="subtitle">Words that categorize a tweet as <i>loving</i>: 'Love', 'Thank', 'Happy', 'Bless'</h5>
+        <br>
+        <h5 class="subtitle">Words that categorize a tweet as <i>hating</i>: 'F*ck', 'Sh*t', 'B*tch', 'Idiot'</h5>
+        <br>
+        <h5 class="subtitle">Hover over the different sections of the chart to see the specific amount of tweets that comprise that categorization.</h5>
+      </div>
+      <br>
+      <center><div id="LoveHate-chart"></div></center>
+    </div>
+  </div>
+
+  <!-- Countries Section -->
+  <div class="section-inner" id="Countries">
+    <div class="wrapper">
+      <h3 style="text-align:left">Countries Mentioned</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This section categorizes the tweets grabbed by country mention, so we may see the breakdown of which countries are being talked about most.</h5>
+        <br>
+        <h5 class="subtitle">Hover over the different sections of the chart to see the specific amount of tweets that comprise that specific country.</h5>
+      </div>
+      <br>
+      <center><div id="Countries-chart"></div></center>
+    </div>
+  </div>
+
+  <!-- Top Languages from Top Tweets Section -->
+  <div class="section-inner" id="topTweetLangs">
+    <div class="wrapper">
+      <h3 style="text-align:left">Top Tweets' Languages</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This section categorizes the Top Tweets (retweeted > 10,000 times) grabbed by language, so we may see the breakdown of languages used in Top Tweets.</h5>
+        <br>
+        <h5 class="subtitle">Hover over the different sections of the chart to see the specific amount of Top Tweets that comprise that language.</h5>
+      </div>
+      <br>
+      <center><div id="topTweetLangs-chart"></div></center>
+    </div>
+  </div>
+
+  <!-- Sample of Top Tweets Section -->
+  <div class="section-inner">
+    <div class="wrapper">
+      <h3 style="text-align:left">Sample of Top Tweets</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">This section provides a sample of the Top Tweets (retweeted > 10,000 times) that were grabbed.</h5>
+      </div>
+      <br>
+      <center>
+        {% for tweet in tweets %}
+        {{ tweet | safe}}
+        {% endfor %}
+      </center>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="section-inner" id="contact">
+    <div class="wrapper">
+      <h3 style="text-align:left">Contact</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">Please <a href="mailto:christian@ctimbol.com" class="link-contact">send me an e-mail</a> if you have any suggestions for me to further improve <a href="https://github.com/christiantimbol/twitterlytics" class="link-contact">my code</a>, improve this page, or for other analyses for me to conduct!
+        </h5>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
