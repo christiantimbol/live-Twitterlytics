@@ -207,11 +207,33 @@
   <!-- About Section -->
   <div class="section-inner" id="about">
     <div class="wrapper">
+
       <h3 style="text-align:left">What is Twitterlytics?</h3>
       <div class="column one-full">
-        <h5 class="subtitle">This website utilizes Python and the Tweepy API to grab tweets from the live Twitter stream. The data is then presented using Flask and Google Charts. Various analyses from this tweet data are given below.</h5>
+        <h5 class="subtitle">Twitterlytics is an application that collects and analyzes realtime Twitter data.
+        <br><br>
+        The current iteration of this application analyzes 2000 tweets (because of Twitter API constraints) for their most used langauges, love vs. hate words, and countries mentioend. It also categorizes tweets as "top" if the tweet exceeded 10,000 retweets. Some of these top tweets are printed below, and the languages from these top tweets are also analyzed.</h5>
+      </div>
+      <br><br>
+      <h3 style="text-align:left">How does Twitterlytics work?</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">Twitterlytics utilizes Python 3 and the Tweepy library to grab tweets from the live Twitter API stream. The data is then written to a SQLite database, then presented using Flask and Google Charts.
+        <br><br>
+        The flowchart below illustrates the process, and the video under that gives a demonstration of this process.
+        <br><br>
+        </h5>
+        <img src="static/img/tlytics.png" target="_blank"/>
+        <br><br>
+        <div style="padding:56.25% 0 0 0;position:relative; overflow: hidden; max-width: 100%">
+          <iframe src="https://player.vimeo.com/video/283262887" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
         <br>
-        <h5 class="subtitle">If you would like more information, please see <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my project page on Github</a>.</h5>
+        <!-- <img src="static/img/tlytics.png" href="https://christiantimbol.com/live-Twitterlytics/static/img/tlytics.png" target="_blank"/> -->
+        <h5 class="subtitle">If you would like more information, please see <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my project page on Github</a> where the source code may be viewed.
+        <br><br>
+        But enough introduction, and onto the actual analytics!
+        </h5>
       </div>
     </div>
   </div>
