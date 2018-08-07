@@ -17,6 +17,13 @@
 
   <title>Twitterlytics</title>
 
+    <style type="text/css">
+      .gist {width:100% !important;}
+      .gist-file
+      .gist-data {max-height: 300px;}
+    </style>
+
+
   <!-- Google Font: Open Sans & Raleway -->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,800,600|Raleway:300,600,900' rel='stylesheet' type='text/css'>
 
@@ -208,35 +215,74 @@
   <div class="section-inner" id="about">
     <div class="wrapper">
 
-      <h3 style="text-align:left">What is Twitterlytics?</h3>
+      <h3 style="text-align:left">// What is Twitterlytics?</h3>
       <div class="column one-full">
-        <h5 class="subtitle">Twitterlytics is an application that collects and analyzes realtime Twitter data.
-        <br><br>
-        The current iteration of this application analyzes 2000 tweets (because of Twitter API constraints) for their most used langauges, love vs. hate words, and countries mentioend. It also categorizes tweets as "top" if the tweet exceeded 10,000 retweets. Some of these top tweets are printed below, and the languages from these top tweets are also analyzed.</h5>
-      </div>
-      <br><br>
-      <h3 style="text-align:left">How does Twitterlytics work?</h3>
-      <div class="column one-full">
-        <h5 class="subtitle">Twitterlytics utilizes Python 3 and the Tweepy library to grab tweets from the live Twitter API stream. The data is then written to a SQLite database, then presented using Flask and Google Charts.
-        <br><br>
-        The flowchart below illustrates the process, and the video under that gives a demonstration of this process.
-        <br><br>
-        </h5>
-        <img src="static/img/tlytics.png" target="_blank"/>
+        <h5 class="subtitle">Twitterlytics is an application that collects, analyzes, and displays realtime Twitter data, as seen in this quick demonstration below.
         <br><br>
         <div style="padding:56.25% 0 0 0;position:relative; overflow: hidden; max-width: 100%">
-          <iframe src="https://player.vimeo.com/video/283262887" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <iframe src="https://player.vimeo.com/video/283262887" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
         <script src="https://player.vimeo.com/api/player.js"></script>
         <br>
-        <!-- <img src="static/img/tlytics.png" href="https://christiantimbol.com/live-Twitterlytics/static/img/tlytics.png" target="_blank"/> -->
-        <h5 class="subtitle">If you would like more information, please see <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my project page on Github</a> where the source code may be viewed.
+        The current iteration of this application analyzes 2000 tweets (because of Twitter API constraints) for their most used langauges, love vs. hate words, and countries mentioned. It also categorizes tweets as "top" if the tweet exceeded 10,000 retweets. Some of these top tweets are printed below, and the languages from these top tweets are also analyzed.</h5>
+      </div>
+      <br><br>
+
+      <h3 style="text-align:left">// How does Twitterlytics work?</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">Twitterlytics utilizes Python 3 and the Tweepy library to grab tweets from the live Twitter API stream. The data is then written to a SQLite database, then presented using Flask and Google Charts.
+        <br><br>
+        The flowchart below illustrates the process.
+        <br><br>
+        </h5>
+        <img src="static/img/tlytics.png" target="_blank"/>
+       </div>
+      <br><br>
+
+      <h3 style="text-align:left">// How was Twitterlytics developed?</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">
+          I first began designing my solution after determining the technologies to use, exemplified by the flowchart diagram in the previous section. Doing this helped me ensure I had the big picture in mind as I proceeded to move onto actually coding. Through my design, I was able to think about the code blocks I'll have, their relationships to each other, as well as the overall data flow through Twitterlytics. Determining all technologies I planned on using in the beginning during the design phase allowed me to compile resources to help me accomplish the overall task as well.
+          <br><br>
+          Then, I began <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/messy_twitter.py”>messy_twitter.py</a>, which was my initial iteration of the final <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/twitter.py”>twitter.py</a> file. The (messy_)twitter.py file is the main script which talks to the Twitter API. I first ensured this script may actually stream tweets, which would verify my credentials.py file (renamed to <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/YOUR-CREDENTIALS.py”>YOUR-CREDENTIALS.py</a> to keep my credentials secret) as well as confirm that I can actually retrieve tweets using Tweepy. I then added a counter to the script to have it continuously stream tweets. Next, I added more details to the tweets being pulled by having the script categorize tweets by language and retweet count. At this point, messy_twitter.py began getting really *messy* (hence its name), so I added classes (Twitter class and Statistics class) to encompass the functions spread throughout the code. In order to preserve my evolving development process, I just left messy_twitter.py and created a new file (twitter.py) that wasn’t as messy.
+          <br><br>
+          <script src="https://gist.github.com/christiantimbol/e9b7026493672c3e8454db379eb70f3d.js"></script>
+          <br>
+          <script src="https://gist.github.com/christiantimbol/d13eb034cdda4626b64de5a1f9467b4f.js"></script>
+          <br>
+          After ensuring twitter.py retrieves and analyzes the tweets from the Twitter stream, I worked on the database script (<a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/create_database.py”>create_database.py</a>) to have the data inserted into a SQLite database according to the tables I created. Whenever twitter.py is run, <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/twitterlytics_data.db”>twitterlytics_data.db</a> is updated.
+          <br><br>
+          <script src="https://gist.github.com/christiantimbol/37861da5643e5a09ca6f782e820c55e3.js"></script>
+          <br>
+          Most of the backend code was finished at this point, so I wrote test scripts for the aforementioned files, <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/test_backend.py>test_backend.py</a>. This script tests the development database code (not production data!), tests if the Twitter class may retrieve a small amount of tweets (compared to the 2000 actually grabbed), tests the analytical features (calls the functions to retrieve the categorized tweets and if they’ve been written to the database), and tests the stats class.
+          <br><br>
+          <script src="https://gist.github.com/christiantimbol/618da6e04d28f6d635274c67426d1c7f.js"></script>
+          <br>
+          Onto the frontend! I wrote the tests for the upcoming Flask web server preemptively to help with actually developing the frontend because these tests contained the bulk of what I designed the frontend to be comprised of. These tests may be seen in <a href=”https://github.com/christiantimbol/live-Twitterlytics/blob/master/test_frontend.py">test_frontend.py</a>. Basically, it firsts checks if Flask is running on the development server (localhost:5000), then tests each frontend feature individually, starting with tweet languages.
+          <br><br>
+          <script src="https://gist.github.com/christiantimbol/1b7ee1b76a14c51901c8945f37c64e44.js"></script>
+          <br>
+          Next, the actual Flask code, that may be seen in <a href=“https://github.com/christiantimbol/live-Twitterlytics/blob/master/FlaskApp.py”>FlaskApp.py</a>. This was my first time working with Flask, but it was generally straightforward thanks to their excellent documentation. Basically, FlaskApp.py reads the SQLite database and sends this data to the HTML pages in the Templates folder. In Twitterlytics’ case, the majority of the data is graphed through Google Charts. After getting the date displayed on my local environment, I touched up the frontend using <a href=“https://ctimbol.com”>my website</a> as a guideline for Twitterlytics’ frontend codebase.
+          <br><br>
+          <script src="https://gist.github.com/christiantimbol/4f823042d7a19458011240a12293bf7b.js"></script>
+          <br>
+        </h5>
+
+      <h3 style="text-align:left">// Why was Twitterlytics made?</h3>
+      <div class="column one-full">
+        <h5 class="subtitle">Ultimately, I decided to develop this to 1) practice full-stack Python applications and 2) because I use Twitter a lot (follow me at: <a href="https://twitter.com/christianlobmit">@christianlobmit</a>) and found it intriguing to dive into Twitter data.
+        <br><br>
+        <h5 class="subtitle">If you would like more information, please see <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my project page on Github</a> where all the source code may be viewed.
         <br><br>
         But enough introduction, and onto the actual analytics!
         </h5>
       </div>
+
     </div>
   </div>
+
+
+
 
   <!-- Top Languages Section -->
   <div class="section-inner" id="topLangs">
@@ -303,7 +349,7 @@
     <div class="wrapper">
       <h3 style="text-align:left">Sample of Top Tweets</h3>
       <div class="column one-full">
-        <h5 class="subtitle">This section provides a sample of the Top Tweets (retweeted > 10,000 times) that were grabbed.</h5>
+        <h5 class="subtitle">This section provides a sample of the Top Tweets (retweeted > 10,000 times) that were grabbed. It's interesting to see a handful of tweets that were capable of garnering the attention of thousands of people.</h5>
       </div>
       <br>
       <div class="column one-half">
@@ -406,7 +452,7 @@
     <div class="wrapper">
       <h3 style="text-align:left">Contact</h3>
       <div class="column one-full">
-        <h5 class="subtitle">Please <a href="mailto:christian@ctimbol.com" class="link-contact">send me an e-mail</a> if you have any suggestions for me to further improve <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my code</a>, improve this page, or for other analyses for me to conduct!
+        <h5 class="subtitle">Please <a href="mailto:christian@ctimbol.com" class="link-contact">send me an e-mail</a> if you have any suggestions for me to further improve <a href="https://github.com/christiantimbol/live-Twitterlytics" class="link-contact">my code</a>, improve this page, or for other analyses for me to conduct! Thanks for scrolling by :-)
         </h5>
       </div>
     </div>
