@@ -1,6 +1,17 @@
 # Twitterlytics
 
-<!-- below is template for rest of readme
+<!--
+
+ToDo:
+- fix nav bar mobile
+- fix the inability to vertically scroll the embedded gists
+- fix nav bar highlighting
+
+-->
+
+<!--
+
+below is template for rest of readme
 
 ## Getting Started
 
