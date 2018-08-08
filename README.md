@@ -1,5 +1,35 @@
 # Twitterlytics
 
+## What is Twitterlytics?
+Twitterlytics is an application that collects, analyzes, and displays realtime Twitter data, as seen in this quick demonstration below.
+
+<a href="https://player.vimeo.com/video/283262887" target="_blank"><img src="https://thumbs.gfycat.com/ElementarySilverLadybug-size_restricted.gif"/></a>
+
+The current iteration of this application analyzes 2000 tweets (because of Twitter API constraints) for their most used langauges, love vs. hate words, and countries mentioned. It also categorizes tweets as "top" if the tweet exceeded 10,000 retweets. Some of these top tweets are printed below, and the languages from these top tweets are also analyzed.
+
+## How does Twitterlytics work?
+Twitterlytics utilizes Python 3 and the Tweepy library to grab tweets from the live Twitter API stream. The data is then written to a SQLite database, then presented using Flask and Google Charts.
+
+The flowchart below illustrates the process.
+![alt text](https://christiantimbol.com/live-Twitterlytics/static/img/tlytics.png "tlytics flowchart")
+
+## How was Twitterlytics developed?
+I first began designing my solution after determining the technologies to use, exemplified by the flowchart diagram in the previous section. Doing this helped me ensure I had the big picture in mind as I proceeded to move onto actually coding. Through my design, I was able to think about the code blocks I'll have, their relationships to each other, as well as the overall data flow through Twitterlytics. Determining all technologies I planned on using in the beginning during the design phase allowed me to compile resources to help me accomplish the overall task as well.
+
+Then, I began messy_twitter.py, which was my initial iteration of the final twitter.py file. The (messy_)twitter.py file is the main script which talks to the Twitter API. I first ensured this script may actually stream tweets, which would verify my credentials.py file (renamed to YOUR-CREDENTIALS.py to keep my credentials secret) as well as confirm that I can actually retrieve tweets using Tweepy. I then added a counter to the script to have it continuously stream tweets. Next, I added more details to the tweets being pulled by having the script categorize tweets by language and retweet count. At this point, messy_twitter.py began getting really *messy* (hence its name), so I added classes (Twitter class and Statistics class) to encompass the functions spread throughout the code. In order to preserve my evolving development process, I just left messy_twitter.py and created a new file (twitter.py) that wasn’t as messy.
+
+After ensuring twitter.py retrieves and analyzes the tweets from the Twitter stream, I worked on the database script (create_database.py) to have the data inserted into a SQLite database according to the tables I created. Whenever twitter.py is run, twitterlytics_data.db is updated.
+
+Most of the backend code was finished at this point, so I wrote test scripts for the aforementioned files, test_backend.py. This script tests the development database code (not production data!), tests if the Twitter class may retrieve a small amount of tweets (compared to the 2000 actually grabbed), tests the analytical features (calls the functions to retrieve the categorized tweets and if they’ve been written to the database), and tests the stats class.
+
+Onto the frontend! I wrote the tests for the upcoming Flask web server preemptively to help with actually developing the frontend because these tests contained the bulk of what I designed the frontend to be comprised of. These tests may be seen in test_frontend.py. Basically, it firsts checks if Flask is running on the development server (localhost:5000), then tests each frontend feature individually, starting with tweet languages.
+
+Next, the actual Flask code, that may be seen in FlaskApp.py. This was my first time working with Flask, but it was generally straightforward thanks to their excellent documentation. Basically, FlaskApp.py reads the SQLite database and sends this data to the HTML pages in the Templates folder. In Twitterlytics’ case, the majority of the data is graphed through Google Charts. After getting the date displayed on my local environment, I touched up the frontend using my website as a guideline for Twitterlytics’ frontend codebase.
+
+## Why was Twitterlytics made?
+Ultimately, I decided to develop this to 1) practice full-stack Python applications and 2) because I use Twitter a lot (follow me at: @christianlobmit) and found it intriguing to dive into Twitter data.
+
+
 <!--
 
 ToDo:
