@@ -1,5 +1,5 @@
 ## What is Twitterlytics?
-Twitterlytics is an application that collects, analyzes, and displays realtime Twitter data, as seen in this quick demonstration below. Click the gif below to open the actual Vimeo video.
+Twitterlytics is a full-stack web application that collects, analyzes, and displays realtime Twitter data, as seen in this quick demonstration below. Click the gif below to open the actual Vimeo video.
 
 <a href="https://player.vimeo.com/video/283262887" target="_blank"><img src="https://thumbs.gfycat.com/ElementarySilverLadybug-size_restricted.gif" width="100%" height="100%"/></a>
 
